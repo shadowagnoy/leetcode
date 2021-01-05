@@ -50,6 +50,15 @@ import java.util.List;
  * @Date: 2021-01-05 10:55
  */
 public class LargeGroup {
+    /**
+     *
+     * @param s 字符串
+     * @description 本人使用方法
+     * @author JSLEDD
+     * @date 2021/1/5 12:11
+     * @return java.util.List<java.util.List < java.lang.Integer>>
+     * @throws
+     */
     public List<List<Integer>> largeGroupPositions(String s) {
         List<List<Integer>> list = new ArrayList<>();
         char flagchar = 'A';
@@ -78,6 +87,59 @@ public class LargeGroup {
         return list;
     }
 
+    /**
+     *
+     * @param s 官方方法
+     * @description
+     * @author JSLEDD
+     * @date 2021/1/5 12:11
+     * @return java.util.List<java.util.List < java.lang.Integer>>
+     * @throws
+     */
+    public List<List<Integer>> largeGroupPositions_1(String s) {
+        List<List<Integer>> ret = new ArrayList<List<Integer>>();
+        int n = s.length();
+        int num = 1;
+        for (int i = 0; i < n; i++) {
+            if (i == n - 1 || s.charAt(i) != s.charAt(i + 1)) {
+                if (num >= 3) {
+                    ret.add(Arrays.asList(i - num + 1, i));
+                }
+                num = 1;
+            } else {
+                num++;
+            }
+        }
+        return ret;
+    }
+
+    /**
+     *
+     * @param s 字符串
+     * @description 其他方法推荐
+     * @author JSLEDD
+     * @date 2021/1/5 12:15
+     * @return java.util.List<java.util.List < java.lang.Integer>>
+     * @throws 
+     */
+    public List<List<Integer>> largeGroupPositions_2(String s) {
+        List<List<Integer>> res = new ArrayList<>();
+        int left = 0;//相同字符串左边边界
+        int length = s.length();
+        while (left < length) {
+            int count = 0;//相同字符串的长度
+            //统计相同字符串的长度
+            while (left + count < length && s.charAt(left) == s.charAt(left + count))
+                count++;
+            //如果长度大于等于3，就把他加入到res中
+            if (count >= 3)
+                res.add(Arrays.asList(left, left + count - 1));
+            //更新下一个字符串的左边边界
+            left = left + count;
+        }
+        return res;
+    }
+    
     public static void main(String[] args) {
         LargeGroup largeGroup = new LargeGroup();
         List<List<Integer>> abccccdeeef = largeGroup.largeGroupPositions("aaa");
